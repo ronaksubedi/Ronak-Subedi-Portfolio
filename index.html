@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RonakSubedi</title>
+    <link href="/images/favicon.png" type="icon" rel="icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+            <div class="headerContent">
+                <a href="#logo" class="logo">
+                    <img src="/images/favicon.png" alt="RonakSubedi Logo" loading="lazy">
+                    <span class="logoText1">Ronak</span>
+                    <span class="logoText">Subedi</span>
+                </a>
+            </div>
+            <nav class="nav">
+                <a href="#herosection" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#education" class="nav-link">Education</a>
+                <a href="#skill" class="nav-link">Skill</a>
+                <a href="#project" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+            <a href="https://github.com/ronaksubedi">
+                <input type="button" value="GitHub" class="githubButton" placeholder="GitHub" id="githubButton">
+            </a>
+
+            <!-- Hidden checkbox for menu toggle -->
+            <input type="checkbox" id="menu-toggle">
+
+            <!-- Menu button as label -->
+            <label for="menu-toggle" class="menubtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-menu">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </label>
+
+            <!-- Mobile menu - MOVED INSIDE HEADER -->
+            <div class="mobile-menu">
+                <a href="#home" class="mobile-nav-link">Home</a>
+                <a href="#about" class="mobile-nav-link">About</a>
+                <a href="#education" class="mobile-nav-link">Education</a>
+                <a href="#skill" class="mobile-nav-link">Skill</a>
+                <a href="#project" class="mobile-nav-link">Projects</a>
+                <a href="#contact" class="mobile-nav-link">Contact</a>
+                <a href="https://github.com/ronaksubedi" class="mobile-github-btn">GitHub</a>
+            </div>
+        </div>
+        <div id="herosection">
+            <section class="main">
+                <div class="heroleft">
+                    <span>
+                        Full Stack Developer
+                    </span>
+                    <h1>Hi, I'm <span>Ronak</span> <span>Subedi</span></h1>
+                    <p>Building responsive, user-friendly web applications with modern technologies. Transforming ideas
+                        into elegant, functional digital experiences.</p>
+                    <div class="herofooter">
+                        <button class="download">
+                            <a href="images/cv.pdf" download="download">Download CV</a>
+                        </button>
+                        <button class="contact">
+                            <a href="#contact">Contact Me</a>
+                    </div>
+                </div>
+                <div class="heroright">
+                    <div class="heroimg">
+                        <img src="images/heroimage.png" alt="Ronak Subedi" loading="lazy">
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+
+</html>
