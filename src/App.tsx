@@ -53,7 +53,13 @@ const App = () => {
           <ResumePdf
             pageOrientation={options.pageOrientation}
             includeContact={options.includeContact}
+            includeSocialLinks={options.includeSocialLinks}
             includeProjects={options.includeProjects}
+            includeSummary={options.includeSummary}
+            includeSkills={options.includeSkills}
+            includeExperience={options.includeExperience}
+            includeEducation={options.includeEducation}
+            includeLanguagesInterests={options.includeLanguagesInterests}
             quality={options.quality}
           />
         ).toBlob();
