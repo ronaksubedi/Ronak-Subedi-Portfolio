@@ -22,7 +22,7 @@ import ResumePdf from "./ResumePdf";
 interface DownloadDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onDownload: (options: DownloadOptions) => void;
+  onDownload: (options: DownloadOptions, resolvedUrl: string | null) => void;
   pdfUrl: string | null;
   isGenerating: boolean;
 }
@@ -31,7 +31,13 @@ export interface DownloadOptions {
   format: "pdf" | "jpg" | "png" | "jpeg" | "json" | "html";
   pageOrientation: "portrait" | "landscape";
   includeContact: boolean;
+  includeSocialLinks: boolean;
   includeProjects: boolean;
+  includeSummary: boolean;
+  includeSkills: boolean;
+  includeExperience: boolean;
+  includeEducation: boolean;
+  includeLanguagesInterests: boolean;
   quality: "standard" | "high";
 }
 
@@ -46,7 +52,13 @@ export default function DownloadDialog({
     format: "pdf",
     pageOrientation: "portrait",
     includeContact: true,
+    includeSocialLinks: true,
     includeProjects: true,
+    includeSummary: true,
+    includeSkills: true,
+    includeExperience: true,
+    includeEducation: true,
+    includeLanguagesInterests: true,
     quality: "high",
   });
 
@@ -64,7 +76,13 @@ export default function DownloadDialog({
           <ResumePdf
             pageOrientation={options.pageOrientation}
             includeContact={options.includeContact}
+            includeSocialLinks={options.includeSocialLinks}
             includeProjects={options.includeProjects}
+            includeSummary={options.includeSummary}
+            includeSkills={options.includeSkills}
+            includeExperience={options.includeExperience}
+            includeEducation={options.includeEducation}
+            includeLanguagesInterests={options.includeLanguagesInterests}
             quality={options.quality}
           />
         ).toBlob();
@@ -90,19 +108,25 @@ export default function DownloadDialog({
     open,
     options.pageOrientation,
     options.includeContact,
+    options.includeSocialLinks,
     options.includeProjects,
+    options.includeSummary,
+    options.includeSkills,
+    options.includeExperience,
+    options.includeEducation,
+    options.includeLanguagesInterests,
     options.quality,
   ]);
 
-  console.log("DownloadDialog rendered, open:", open);
-
   const handleDownload = () => {
-    onDownload(options);
+    onDownload(options, previewUrl || pdfUrl);
   };
+
+  const isPdfFormat = options.format === "pdf";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-hidden flex flex-col">
+      <DialogContent className="sm:max-w-[1200px] max-w-[95vw] h-[90vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">
             Download CV
@@ -232,6 +256,21 @@ export default function DownloadDialog({
                 </div>
                 <div className="flex items-center space-x-2">
                   <Checkbox
+                    id="socialLinks"
+                    checked={options.includeSocialLinks}
+                    onCheckedChange={(checked) =>
+                      setOptions({ ...options, includeSocialLinks: !!checked })
+                    }
+                  />
+                  <label
+                    htmlFor="socialLinks"
+                    className="text-sm text-muted-foreground cursor-pointer"
+                  >
+                    Social Links
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
                     id="projects"
                     checked={options.includeProjects}
                     onCheckedChange={(checked) =>
@@ -243,6 +282,84 @@ export default function DownloadDialog({
                     className="text-sm text-muted-foreground cursor-pointer"
                   >
                     Projects Section
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="summary"
+                    checked={options.includeSummary}
+                    onCheckedChange={(checked) =>
+                      setOptions({ ...options, includeSummary: !!checked })
+                    }
+                  />
+                  <label
+                    htmlFor="summary"
+                    className="text-sm text-muted-foreground cursor-pointer"
+                  >
+                    Summary
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="skills"
+                    checked={options.includeSkills}
+                    onCheckedChange={(checked) =>
+                      setOptions({ ...options, includeSkills: !!checked })
+                    }
+                  />
+                  <label
+                    htmlFor="skills"
+                    className="text-sm text-muted-foreground cursor-pointer"
+                  >
+                    Technical Skills
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="experience"
+                    checked={options.includeExperience}
+                    onCheckedChange={(checked) =>
+                      setOptions({ ...options, includeExperience: !!checked })
+                    }
+                  />
+                  <label
+                    htmlFor="experience"
+                    className="text-sm text-muted-foreground cursor-pointer"
+                  >
+                    Work Experience
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="education"
+                    checked={options.includeEducation}
+                    onCheckedChange={(checked) =>
+                      setOptions({ ...options, includeEducation: !!checked })
+                    }
+                  />
+                  <label
+                    htmlFor="education"
+                    className="text-sm text-muted-foreground cursor-pointer"
+                  >
+                    Education
+                  </label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="languagesInterests"
+                    checked={options.includeLanguagesInterests}
+                    onCheckedChange={(checked) =>
+                      setOptions({
+                        ...options,
+                        includeLanguagesInterests: !!checked,
+                      })
+                    }
+                  />
+                  <label
+                    htmlFor="languagesInterests"
+                    className="text-sm text-muted-foreground cursor-pointer"
+                  >
+                    Languages & Interests
                   </label>
                 </div>
               </div>
@@ -263,6 +380,19 @@ export default function DownloadDialog({
         <div className="flex justify-end gap-3 pt-4 border-t mt-4">
           <Button
             variant="outline"
+            onClick={() => {
+              const targetUrl = previewUrl || pdfUrl;
+              if (targetUrl) {
+                window.open(targetUrl, "_blank", "noopener,noreferrer");
+              }
+            }}
+            disabled={!previewUrl && !pdfUrl}
+            className="min-w-[120px]"
+          >
+            Open Preview
+          </Button>
+          <Button
+            variant="outline"
             onClick={() => onOpenChange(false)}
             disabled={isGenerating}
             className="min-w-[100px]"
@@ -271,10 +401,17 @@ export default function DownloadDialog({
           </Button>
           <Button
             onClick={handleDownload}
-            disabled={isGenerating}
+            disabled={
+              isGenerating ||
+              (isPdfFormat && (isLoadingPreview || (!previewUrl && !pdfUrl)))
+            }
             className="min-w-[100px]"
           >
-            {isGenerating ? "Generating..." : "Download"}
+            {isGenerating
+              ? "Generating..."
+              : isPdfFormat && (isLoadingPreview || (!previewUrl && !pdfUrl))
+              ? "Preparing preview..."
+              : "Download"}
           </Button>
         </div>
       </DialogContent>

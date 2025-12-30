@@ -4,7 +4,7 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "exclude": ["node_modules/html2canvas"],
+  "exclude": ["node_modules/html2canvas", "node_modules/html2canvas/**/*"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {

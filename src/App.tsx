@@ -12,6 +12,8 @@ import {
   Github,
   Linkedin,
   Globe,
+  Facebook,
+  Instagram,
 } from "lucide-react";
 import ResumePdf from "@/components/ResumePdf";
 import { resume } from "@/data/resumeData";
@@ -220,9 +222,14 @@ const App = () => {
                     href={resume.contacts.linkedin}
                   />
                   <ContactItem
-                    icon={Globe}
-                    text="Portfolio"
-                    href={resume.contacts.portfolio}
+                    icon={Facebook}
+                    text="Facebook"
+                    href={resume.contacts.facebook}
+                  />
+                  <ContactItem
+                    icon={Instagram}
+                    text="Instagram"
+                    href={resume.contacts.instagram}
                   />
                 </div>
 

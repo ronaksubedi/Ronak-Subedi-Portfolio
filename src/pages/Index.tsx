@@ -8,10 +8,12 @@ import {
   Github,
   Linkedin,
   Globe,
+  Facebook,
+  Instagram,
 } from "lucide-react";
 import ResumePdf from "@/components/ResumePdf";
 import { resume } from "@/data/resumeData";
-import { usePDF } from "@react-pdf/renderer";
+import { pdf, usePDF } from "@react-pdf/renderer";
 import DownloadDialog, {
   type DownloadOptions,
 } from "@/components/DownloadDialog";
@@ -39,15 +41,65 @@ const Index = () => {
     setDownloadDialogOpen(true);
   };
 
-  const handleDownload = (options: DownloadOptions) => {
-    if (options.format === "pdf" && instance.url) {
-      // Download PDF
-      const link = document.createElement("a");
-      link.href = instance.url;
-      link.download = `Ronak-Subedi-Resume-${options.quality}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  const handleDownload = async (
+    options: DownloadOptions,
+    resolvedUrl: string | null
+  ) => {
+    if (options.format === "pdf") {
+      try {
+        // Ensure we have a URL with the chosen options; generate if preview not ready
+        let urlToUse = resolvedUrl;
+        if (!urlToUse) {
+          const blob = await pdf(
+            <ResumePdf
+              pageOrientation={options.pageOrientation}
+              includeContact={options.includeContact}
+              includeSocialLinks={options.includeSocialLinks}
+              includeProjects={options.includeProjects}
+              includeSummary={options.includeSummary}
+              includeSkills={options.includeSkills}
+              includeExperience={options.includeExperience}
+              includeEducation={options.includeEducation}
+              includeLanguagesInterests={options.includeLanguagesInterests}
+              quality={options.quality}
+            />
+          ).toBlob();
+          urlToUse = URL.createObjectURL(blob);
+        }
+
+        // Open print preview in the same tab using a hidden iframe
+        const iframe = document.createElement("iframe");
+        iframe.style.position = "fixed";
+        iframe.style.right = "0";
+        iframe.style.bottom = "0";
+        iframe.style.width = "0";
+        iframe.style.height = "0";
+        iframe.style.border = "0";
+        iframe.src = urlToUse;
+
+        iframe.onload = () => {
+          try {
+            iframe.contentWindow?.focus();
+            iframe.contentWindow?.print();
+          } catch (err) {
+            console.error("Print failed, fallback to open", err);
+            window.location.href = urlToUse || "";
+          }
+
+          // Clean up after print call
+          setTimeout(() => {
+            iframe.remove();
+            if (urlToUse && !resolvedUrl) {
+              URL.revokeObjectURL(urlToUse);
+            }
+          }, 2000);
+        };
+
+        document.body.appendChild(iframe);
+      } catch (err) {
+        console.error("Failed to generate PDF for printing", err);
+        alert("Could not prepare the PDF. Please try again.");
+      }
     } else if (options.format === "json") {
       // Download JSON
       const dataStr = JSON.stringify(resume, null, 2);
@@ -147,9 +199,14 @@ const Index = () => {
                   href={resume.contacts.linkedin}
                 />
                 <ContactItem
-                  icon={Globe}
-                  text="Portfolio"
-                  href={resume.contacts.portfolio}
+                  icon={Facebook}
+                  text="Facebook"
+                  href={resume.contacts.facebook}
+                />
+                <ContactItem
+                  icon={Instagram}
+                  text="Instagram"
+                  href={resume.contacts.instagram}
                 />
               </div>
 

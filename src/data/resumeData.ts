@@ -35,7 +35,8 @@ export interface ResumeData {
     phone: string;
     github: string;
     linkedin: string;
-    portfolio: string;
+    facebook: string;
+    instagram: string;
   };
   summary: string[];
   skills: {
@@ -60,7 +61,8 @@ export const resume: ResumeData = {
     phone: "+977-9824029510",
     github: "https://github.com/ronaksubedi",
     linkedin: "https://www.linkedin.com/in/ronak-subedi/",
-    portfolio: "https://ronaksubedi.com.np",
+    facebook: "https://www.facebook.com/ronaksubedi007",
+    instagram: "https://www.instagram.com/ronaksubedi/",
   },
   summary: [
     "MERN stack developer focused on building clean, scalable web applications.",
@@ -73,13 +75,13 @@ export const resume: ResumeData = {
   },
   experience: [
     {
-      role: "MERN Stack Developer",
+      role: "MERN Stack Developer intern/Junior",
       company: "Nepal Bank Limited",
       location: "Kathmandu, Nepal",
-      from: "Jan 2023",
+      from: "Dec 2025",
       to: "Present",
       bullets: [
-        "Developed and maintained MERN applications used by hundreds of users.",
+        "Developed and maintained MERN applications .",
         "Designed REST APIs in Node.js/Express and integrated them with React frontends.",
         "Improved API response times by optimising MongoDB queries and adding caching.",
       ],
@@ -88,8 +90,8 @@ export const resume: ResumeData = {
       role: "Full Stack Developer (Intern / Junior)",
       company: "Nepal Bank Limited",
       location: "Kathmandu, Nepal",
-      from: "Dec 2022",
-      to: "ongoing",
+      from: "Jan 2025",
+      to: "Nov 2025",
       bullets: [
         "Implemented new features in existing React applications and fixed UI bugs.",
         "Collaborated with backend team to integrate JSON APIs and WebSocket events.",
@@ -103,22 +105,22 @@ export const resume: ResumeData = {
       link: "https://news-article-app.vercel.app/",
       stack: ["MongoDB", "Express", "React", "Node.js"],
       description:
-        "Task management app with real-time updates and JWT-based authentication.",
+        "News article platform with user authentication, article CRUD, and responsive design.",
     },
     {
       name: "Bhagwat Gita App",
       link: "https://bhagavad-geeta-main.vercel.app/",
-      stack: ["Next.js", "Tailwind CSS"],
+      stack: ["React", "Tailwind CSS"],
       description:
-        "Developer blog platform with markdown support, SEO-friendly routing, and admin dashboard.",
+        "Responsive Bhagwat Gita app with chapter navigation and verse search functionality.",
     },
   ],
   education: [
     {
-      degree: "BIT",
-      institution: "Patan Multiple Campus / Tribhuvan University",
+      degree: "Bachelor In Information Technology-BIT",
+      institution: "Patan Multiple Campus-Tribhuvan University",
       location: "Patan-Dhoka, Lalitpur, Nepal",
-      year: "202X",
+      year: "2022-2026",
     },
   ],
   languages: ["English", "Nepali", "Hindi"],
