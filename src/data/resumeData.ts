@@ -35,8 +35,6 @@ export interface ResumeData {
     phone: string;
     github: string;
     linkedin: string;
-    facebook: string;
-    instagram: string;
   };
   summary: string[];
   skills: {

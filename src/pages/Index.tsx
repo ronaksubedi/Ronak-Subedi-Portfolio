@@ -1,13 +1,6 @@
 import type React from "react";
 import { useEffect, useMemo, useState } from "react";
-import {
-  Download,
-  MapPin,
-  Mail,
-  Phone,
-  Github,
-  Linkedin,
-} from "lucide-react";
+import { Download, MapPin, Mail, Phone, Github, Linkedin } from "lucide-react";
 import ResumePdf from "@/components/ResumePdf";
 import { resume } from "@/data/resumeData";
 import { pdf, usePDF } from "@react-pdf/renderer";

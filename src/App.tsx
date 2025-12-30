@@ -4,14 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { pdf } from "@react-pdf/renderer";
 import { useState, useEffect, useRef } from "react";
 import html2canvas from "html2canvas";
-import {
-  Download,
-  MapPin,
-  Mail,
-  Phone,
-  Github,
-  Linkedin,
-} from "lucide-react";
+import { Download, MapPin, Mail, Phone, Github, Linkedin } from "lucide-react";
 import ResumePdf from "@/components/ResumePdf";
 import { resume } from "@/data/resumeData";
 import DownloadDialog, {
