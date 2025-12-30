@@ -1,5 +1,5 @@
 import type React from "react";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Download,
   MapPin,
@@ -12,10 +12,14 @@ import {
 import ResumePdf from "@/components/ResumePdf";
 import { resume } from "@/data/resumeData";
 import { usePDF } from "@react-pdf/renderer";
+import DownloadDialog, {
+  type DownloadOptions,
+} from "@/components/DownloadDialog";
 
 const Index = () => {
   const pdfDocument = useMemo(() => <ResumePdf />, []);
   const [instance, updateInstance] = usePDF({ document: pdfDocument });
+  const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
 
   // Ensure the PDF blob is generated on mount and retried if it fails
   useEffect(() => {
@@ -24,37 +28,78 @@ const Index = () => {
     }
   }, [instance.url, instance.loading, updateInstance, pdfDocument]);
 
-  const handleDownloadClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleDownloadClick = () => {
+    console.log("Download button clicked");
     if (instance.error) {
-      e.preventDefault();
       alert("Unable to generate PDF. Please try again.");
+      updateInstance(pdfDocument);
       return;
     }
-
-    if (!instance.url) {
-      e.preventDefault();
-      updateInstance(pdfDocument);
-    }
+    console.log("Opening download dialog");
+    setDownloadDialogOpen(true);
   };
+
+  const handleDownload = (options: DownloadOptions) => {
+    if (options.format === "pdf" && instance.url) {
+      // Download PDF
+      const link = document.createElement("a");
+      link.href = instance.url;
+      link.download = `Ronak-Subedi-Resume-${options.quality}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else if (options.format === "json") {
+      // Download JSON
+      const dataStr = JSON.stringify(resume, null, 2);
+      const dataBlob = new Blob([dataStr], { type: "application/json" });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "Ronak-Subedi-Resume.json";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } else if (options.format === "html") {
+      // Download HTML
+      const link = document.createElement("a");
+      link.href = "/screen-reader-qa.html";
+      link.download = "Ronak-Subedi-CV.html";
+      link.target = "_blank";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    setDownloadDialogOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Download Button */}
       <div className="fixed top-6 right-6 z-50">
-        <a
-          href={instance.url || "#"}
-          download="Ronak-Subedi-Resume.pdf"
-          className="inline-flex items-center gap-2 bg-primary px-4 py-2 rounded text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
-          aria-disabled={!instance.url}
+        <button
           onClick={handleDownloadClick}
+          disabled={instance.loading}
+          className="inline-flex items-center gap-2 bg-primary px-4 py-2 rounded text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Download className="w-4 h-4" />
           {instance.error
             ? "Retry Download"
-            : !instance.url
+            : instance.loading
             ? "Generating..."
             : "Download CV"}
-        </a>
+        </button>
       </div>
+
+      {/* Download Dialog */}
+      <DownloadDialog
+        open={downloadDialogOpen}
+        onOpenChange={setDownloadDialogOpen}
+        onDownload={handleDownload}
+        pdfUrl={instance.url}
+        isGenerating={instance.loading}
+      />
 
       <div className="max-w-5xl mx-auto px-6 py-16 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">

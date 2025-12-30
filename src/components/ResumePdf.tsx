@@ -8,6 +8,13 @@ import {
 } from "@react-pdf/renderer";
 import { resume } from "@/data/resumeData";
 
+export interface ResumePdfOptions {
+  pageOrientation?: "portrait" | "landscape";
+  includeContact?: boolean;
+  includeProjects?: boolean;
+  quality?: "standard" | "high";
+}
+
 const COLORS = {
   text: "#1f2933",
   muted: "#4b5563",
@@ -178,147 +185,162 @@ const styles = StyleSheet.create({
   },
 });
 
-const ResumePdf = () => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.name}>{resume.name}</Text>
-        <Text style={styles.title}>{resume.title}</Text>
-        <View style={styles.contactRow}>
-          <Text style={styles.contactItem}>{resume.contacts.phone}</Text>
-          <Text style={styles.contactItem}>{resume.contacts.email}</Text>
-          <Text style={styles.contactItem}>{resume.location}</Text>
-          <Link src={resume.contacts.linkedin} style={styles.link}>
-            LinkedIn
-          </Link>
-          <Link src={resume.contacts.github} style={styles.link}>
-            GitHub
-          </Link>
-          {resume.contacts.portfolio && (
-            <Link src={resume.contacts.portfolio} style={styles.link}>
-              Portfolio
-            </Link>
+const ResumePdf = ({
+  pageOrientation = "portrait",
+  includeContact = true,
+  includeProjects = true,
+  quality = "high",
+}: ResumePdfOptions = {}) => {
+  // Adjust font sizes based on quality
+  const baseFontSize = quality === "high" ? 10 : 9;
+  const headerSize = quality === "high" ? 18 : 16;
+
+  return (
+    <Document>
+      <Page size="A4" orientation={pageOrientation} style={styles.page}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.name}>{resume.name}</Text>
+          <Text style={styles.title}>{resume.title}</Text>
+          {includeContact && (
+            <View style={styles.contactRow}>
+              <Text style={styles.contactItem}>{resume.contacts.phone}</Text>
+              <Text style={styles.contactItem}>{resume.contacts.email}</Text>
+              <Text style={styles.contactItem}>{resume.location}</Text>
+              <Link src={resume.contacts.linkedin} style={styles.link}>
+                LinkedIn
+              </Link>
+              <Link src={resume.contacts.github} style={styles.link}>
+                GitHub
+              </Link>
+              {resume.contacts.portfolio && (
+                <Link src={resume.contacts.portfolio} style={styles.link}>
+                  Portfolio
+                </Link>
+              )}
+            </View>
           )}
         </View>
-      </View>
 
-      {/* Summary */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Summary</Text>
-        {resume.summary.map((line, idx) => (
-          <Text key={idx} style={styles.paragraph}>
-            {line}
-          </Text>
-        ))}
-      </View>
+        {/* Summary */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Summary</Text>
+          {resume.summary.map((line, idx) => (
+            <Text key={idx} style={styles.paragraph}>
+              {line}
+            </Text>
+          ))}
+        </View>
 
-      {/* Skills */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Technical Skills</Text>
-        <View style={styles.skillsRow}>
-          <View style={styles.skillBlock}>
-            <Text style={styles.skillLabel}>Backend</Text>
-            <View style={styles.pillWrap}>
-              {resume.skills.backend.map((s) => (
-                <Text key={s} style={styles.pill}>
-                  {s}
-                </Text>
-              ))}
+        {/* Skills */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Technical Skills</Text>
+          <View style={styles.skillsRow}>
+            <View style={styles.skillBlock}>
+              <Text style={styles.skillLabel}>Backend</Text>
+              <View style={styles.pillWrap}>
+                {resume.skills.backend.map((s) => (
+                  <Text key={s} style={styles.pill}>
+                    {s}
+                  </Text>
+                ))}
+              </View>
             </View>
-          </View>
-          <View style={styles.skillBlock}>
-            <Text style={styles.skillLabel}>Frontend</Text>
-            <View style={styles.pillWrap}>
-              {resume.skills.frontend.map((s) => (
-                <Text key={s} style={styles.pill}>
-                  {s}
-                </Text>
-              ))}
+            <View style={styles.skillBlock}>
+              <Text style={styles.skillLabel}>Frontend</Text>
+              <View style={styles.pillWrap}>
+                {resume.skills.frontend.map((s) => (
+                  <Text key={s} style={styles.pill}>
+                    {s}
+                  </Text>
+                ))}
+              </View>
             </View>
-          </View>
-          <View style={styles.skillBlock}>
-            <Text style={styles.skillLabel}>Tools</Text>
-            <View style={styles.pillWrap}>
-              {resume.skills.tools.map((s) => (
-                <Text key={s} style={styles.pill}>
-                  {s}
-                </Text>
-              ))}
+            <View style={styles.skillBlock}>
+              <Text style={styles.skillLabel}>Tools</Text>
+              <View style={styles.pillWrap}>
+                {resume.skills.tools.map((s) => (
+                  <Text key={s} style={styles.pill}>
+                    {s}
+                  </Text>
+                ))}
+              </View>
             </View>
           </View>
         </View>
-      </View>
 
-      {/* Experience */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Work Experience</Text>
-        {resume.experience.map((exp, idx) => (
-          <View key={idx} style={styles.experienceItem}>
-            <View style={styles.expHeader}>
-              <Text style={styles.expRole}>
-                {exp.role} · {exp.company}
-              </Text>
-              <Text style={styles.expPeriod}>
-                {exp.from} – {exp.to}
-              </Text>
+        {/* Experience */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Work Experience</Text>
+          {resume.experience.map((exp, idx) => (
+            <View key={idx} style={styles.experienceItem}>
+              <View style={styles.expHeader}>
+                <Text style={styles.expRole}>
+                  {exp.role} · {exp.company}
+                </Text>
+                <Text style={styles.expPeriod}>
+                  {exp.from} – {exp.to}
+                </Text>
+              </View>
+              <Text style={styles.expCompany}>{exp.location}</Text>
+              {exp.bullets.map((b, i) => (
+                <Text key={i} style={styles.bullet}>
+                  • {b}
+                </Text>
+              ))}
             </View>
-            <Text style={styles.expCompany}>{exp.location}</Text>
-            {exp.bullets.map((b, i) => (
-              <Text key={i} style={styles.bullet}>
-                • {b}
+          ))}
+        </View>
+
+        {/* Projects */}
+        {includeProjects && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Projects</Text>
+            {resume.projects.map((p, idx) => (
+              <View key={idx} style={styles.projectItem}>
+                <Text style={styles.projectName}>{p.name}</Text>
+                <Text style={styles.projectDesc}>{p.description}</Text>
+                <Text style={styles.projectStack}>{p.stack.join(" • ")}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+
+        {/* Education */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Education</Text>
+          {resume.education.map((e, idx) => (
+            <View key={idx} style={styles.eduItem}>
+              <Text style={styles.eduDegree}>{e.degree}</Text>
+              <Text style={styles.eduMeta}>
+                {e.institution} · {e.location}
+              </Text>
+              <Text style={styles.eduMeta}>{e.year}</Text>
+            </View>
+          ))}
+        </View>
+
+        {/* Languages & Interests */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Languages & Interests</Text>
+          <View style={styles.smallList}>
+            {resume.languages.map((l) => (
+              <Text key={l} style={styles.smallItem}>
+                {l}
               </Text>
             ))}
           </View>
-        ))}
-      </View>
-
-      {/* Projects */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Projects</Text>
-        {resume.projects.map((p, idx) => (
-          <View key={idx} style={styles.projectItem}>
-            <Text style={styles.projectName}>{p.name}</Text>
-            <Text style={styles.projectDesc}>{p.description}</Text>
-            <Text style={styles.projectStack}>{p.stack.join(" • ")}</Text>
+          <View style={[styles.smallList, { marginTop: 4 }]}>
+            {resume.interests.map((i) => (
+              <Text key={i} style={styles.smallItem}>
+                {i}
+              </Text>
+            ))}
           </View>
-        ))}
-      </View>
-
-      {/* Education */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Education</Text>
-        {resume.education.map((e, idx) => (
-          <View key={idx} style={styles.eduItem}>
-            <Text style={styles.eduDegree}>{e.degree}</Text>
-            <Text style={styles.eduMeta}>
-              {e.institution} · {e.location}
-            </Text>
-            <Text style={styles.eduMeta}>{e.year}</Text>
-          </View>
-        ))}
-      </View>
-
-      {/* Languages & Interests */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Languages & Interests</Text>
-        <View style={styles.smallList}>
-          {resume.languages.map((l) => (
-            <Text key={l} style={styles.smallItem}>
-              {l}
-            </Text>
-          ))}
         </View>
-        <View style={[styles.smallList, { marginTop: 4 }]}>
-          {resume.interests.map((i) => (
-            <Text key={i} style={styles.smallItem}>
-              {i}
-            </Text>
-          ))}
-        </View>
-      </View>
-    </Page>
-  </Document>
-);
+      </Page>
+    </Document>
+  );
+};
 
 export default ResumePdf;
