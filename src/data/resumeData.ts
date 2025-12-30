@@ -54,7 +54,7 @@ export interface ResumeData {
 
 export const resume: ResumeData = {
   name: "Ronak Subedi",
-  title: "MERN Stack Developer",
+  title: "Full Stack/MERN Stack Developer",
   location: "Damak, Jhapa Nepal",
   contacts: {
     email: "ronaksubedi576@gmail.com",
