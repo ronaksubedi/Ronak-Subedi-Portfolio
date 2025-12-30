@@ -54,7 +54,7 @@ export interface ResumeData {
 
 export const resume: ResumeData = {
   name: "Ronak Subedi",
-  title: "Full Stack/MERN Stack Developer",
+  title: "Full/MERN Stack Developer",
   location: "Damak, Jhapa Nepal",
   contacts: {
     email: "ronaksubedi576@gmail.com",
@@ -65,7 +65,7 @@ export const resume: ResumeData = {
     instagram: "https://www.instagram.com/ronaksubedi/",
   },
   summary: [
-    "MERN stack developer focused on building clean, scalable web applications.",
+    "Full Stack/MERN stack developer focused on building clean, scalable web applications.",
     "Comfortable across MongoDB, Express, React, and Node.js with an eye for performance and DX.",
   ],
   skills: {
