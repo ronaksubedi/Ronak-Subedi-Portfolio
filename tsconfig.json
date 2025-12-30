@@ -1,6 +1,10 @@
 {
   "files": [],
-  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "exclude": ["node_modules/html2canvas"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
