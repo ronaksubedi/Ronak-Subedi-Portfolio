@@ -190,15 +190,10 @@ const App = () => {
 
                 <div>
                   <h1 className="text-3xl lg:text-4xl font-bold text-foreground tracking-tight">
-                    Top MERN Stack Developer in Nepal Building Accessible Web
-                    Applications
+                    {resume.name}
                   </h1>
-                  <p className="mt-4 text-base text-muted-foreground leading-relaxed">
-                    I'm {resume.name}, a MERN stack developer in Nepal
-                    specializing in building fast, accessible web applications.
-                    With over 3 years of hands-on experience, I create scalable
-                    solutions using MongoDB, Express, React, and Node.js that
-                    prioritize performance, clean code, and user accessibility.
+                  <p className="mt-2 text-lg font-mono text-primary">
+                    {resume.title}
                   </p>
                 </div>
 
@@ -263,7 +258,7 @@ const App = () => {
             {/* Right Column - Resume Content */}
             <main className="lg:col-span-8 space-y-12">
               {/* Summary */}
-              <Section title="Expert Full-Stack JavaScript Development">
+              <Section title="Summary">
                 <div className="space-y-2">
                   {resume.summary.map((line, index) => (
                     <p
@@ -277,16 +272,7 @@ const App = () => {
               </Section>
 
               {/* Skills */}
-              <Section title="Modern Tech Stack & Core Skills">
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  As a full-stack JavaScript developer, I work across the entire
-                  web development lifecycle—from designing MongoDB database
-                  schemas to building responsive React interfaces. My expertise
-                  includes Node.js server architecture, RESTful API development,
-                  and modern frontend frameworks, all while maintaining high
-                  standards for code quality, performance optimization, and web
-                  accessibility compliance.
-                </p>
+              <Section title="Skills">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   <SkillGroup title="Backend" skills={resume.skills.backend} />
                   <SkillGroup
@@ -298,7 +284,7 @@ const App = () => {
               </Section>
 
               {/* Experience */}
-              <Section title="Proven Experience with Leading Companies">
+              <Section title="Experience">
                 <div className="space-y-8">
                   {resume.experience.map((exp, index) => (
                     <div
@@ -334,15 +320,7 @@ const App = () => {
               </Section>
 
               {/* Projects */}
-              <Section title="Featured Web Development Projects">
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  I've delivered production-ready applications for diverse
-                  clients, from content management platforms to enterprise
-                  dashboards. Each project showcases my ability to translate
-                  business requirements into scalable code, implement best
-                  practices for security and performance, and ensure
-                  pixel-perfect responsive design across devices.
-                </p>
+              <Section title="Projects">
                 <div className="space-y-6">
                   {resume.projects.map((project, index) => (
                     <div
@@ -397,41 +375,6 @@ const App = () => {
                     </p>
                   </div>
                 ))}
-              </Section>
-
-              {/* Contact CTA */}
-              <Section title="Let's Build Something Great Together">
-                <div className="p-6 bg-primary/5 border border-primary/20 rounded-lg">
-                  <p className="text-muted-foreground leading-relaxed mb-4">
-                    Looking for a reliable MERN stack developer in Nepal to
-                    bring your project to life? I'm available for freelance
-                    work, remote positions, and consulting engagements. Whether
-                    you need a full-stack web application, API development, or
-                    frontend expertise, I deliver clean, maintainable code that
-                    scales with your business.
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Let's discuss how I can help you build accessible,
-                    high-performance web applications that your users will love.
-                    Reach out via email at{" "}
-                    <a
-                      href={`mailto:${resume.contacts.email}`}
-                      className="text-primary hover:underline font-medium"
-                    >
-                      {resume.contacts.email}
-                    </a>{" "}
-                    or connect with me on{" "}
-                    <a
-                      href={resume.contacts.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline font-medium"
-                    >
-                      LinkedIn
-                    </a>
-                    .
-                  </p>
-                </div>
               </Section>
             </main>
           </div>
