@@ -45,82 +45,59 @@ const Index = () => {
     options: DownloadOptions,
     resolvedUrl: string | null
   ) => {
-    if (options.format === "pdf") {
-      try {
-        // Ensure we have a URL with the chosen options; generate if preview not ready
-        let urlToUse = resolvedUrl;
-        if (!urlToUse) {
-          const blob = await pdf(
-            <ResumePdf
-              pageOrientation={options.pageOrientation}
-              includeContact={options.includeContact}
-              includeSocialLinks={options.includeSocialLinks}
-              includeProjects={options.includeProjects}
-              includeSummary={options.includeSummary}
-              includeSkills={options.includeSkills}
-              includeExperience={options.includeExperience}
-              includeEducation={options.includeEducation}
-              includeLanguagesInterests={options.includeLanguagesInterests}
-              quality={options.quality}
-            />
-          ).toBlob();
-          urlToUse = URL.createObjectURL(blob);
+    try {
+      // Ensure we have a URL with the chosen options; generate if preview not ready
+      let urlToUse = resolvedUrl;
+      if (!urlToUse) {
+        const blob = await pdf(
+          <ResumePdf
+            pageOrientation={options.pageOrientation}
+            includeContact={options.includeContact}
+            includeSocialLinks={options.includeSocialLinks}
+            includeProjects={options.includeProjects}
+            includeSummary={options.includeSummary}
+            includeSkills={options.includeSkills}
+            includeExperience={options.includeExperience}
+            includeEducation={options.includeEducation}
+            includeLanguagesInterests={options.includeLanguagesInterests}
+            quality={options.quality}
+          />
+        ).toBlob();
+        urlToUse = URL.createObjectURL(blob);
+      }
+
+      // Open print preview in the same tab using a hidden iframe
+      const iframe = document.createElement("iframe");
+      iframe.style.position = "fixed";
+      iframe.style.right = "0";
+      iframe.style.bottom = "0";
+      iframe.style.width = "0";
+      iframe.style.height = "0";
+      iframe.style.border = "0";
+      iframe.src = urlToUse;
+
+      iframe.onload = () => {
+        try {
+          iframe.contentWindow?.focus();
+          iframe.contentWindow?.print();
+        } catch (err) {
+          console.error("Print failed, fallback to open", err);
+          window.location.href = urlToUse || "";
         }
 
-        // Open print preview in the same tab using a hidden iframe
-        const iframe = document.createElement("iframe");
-        iframe.style.position = "fixed";
-        iframe.style.right = "0";
-        iframe.style.bottom = "0";
-        iframe.style.width = "0";
-        iframe.style.height = "0";
-        iframe.style.border = "0";
-        iframe.src = urlToUse;
-
-        iframe.onload = () => {
-          try {
-            iframe.contentWindow?.focus();
-            iframe.contentWindow?.print();
-          } catch (err) {
-            console.error("Print failed, fallback to open", err);
-            window.location.href = urlToUse || "";
+        // Clean up after print call
+        setTimeout(() => {
+          iframe.remove();
+          if (urlToUse && !resolvedUrl) {
+            URL.revokeObjectURL(urlToUse);
           }
+        }, 2000);
+      };
 
-          // Clean up after print call
-          setTimeout(() => {
-            iframe.remove();
-            if (urlToUse && !resolvedUrl) {
-              URL.revokeObjectURL(urlToUse);
-            }
-          }, 2000);
-        };
-
-        document.body.appendChild(iframe);
-      } catch (err) {
-        console.error("Failed to generate PDF for printing", err);
-        alert("Could not prepare the PDF. Please try again.");
-      }
-    } else if (options.format === "json") {
-      // Download JSON
-      const dataStr = JSON.stringify(resume, null, 2);
-      const dataBlob = new Blob([dataStr], { type: "application/json" });
-      const url = URL.createObjectURL(dataBlob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "Ronak-Subedi-Resume.json";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    } else if (options.format === "html") {
-      // Download HTML
-      const link = document.createElement("a");
-      link.href = "/screen-reader-qa.html";
-      link.download = "Ronak-Subedi-CV.html";
-      link.target = "_blank";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      document.body.appendChild(iframe);
+    } catch (err) {
+      console.error("Failed to generate PDF for printing", err);
+      alert("Could not prepare the PDF. Please try again.");
     }
 
     setDownloadDialogOpen(false);

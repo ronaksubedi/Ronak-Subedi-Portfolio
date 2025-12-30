@@ -28,7 +28,7 @@ interface DownloadDialogProps {
 }
 
 export interface DownloadOptions {
-  format: "pdf" | "jpg" | "png" | "jpeg" | "json" | "html";
+  format: "pdf";
   pageOrientation: "portrait" | "landscape";
   includeContact: boolean;
   includeSocialLinks: boolean;
@@ -122,8 +122,6 @@ export default function DownloadDialog({
     onDownload(options, previewUrl || pdfUrl);
   };
 
-  const isPdfFormat = options.format === "pdf";
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[1200px] max-w-[95vw] h-[90vh] overflow-hidden flex flex-col">
@@ -158,82 +156,47 @@ export default function DownloadDialog({
 
           {/* Right Side - Options */}
           <div className="w-[280px] space-y-4 overflow-y-auto pr-2">
-            {/* Format Selection */}
+            {/* Page Orientation */}
             <div className="space-y-2">
-              <Label htmlFor="format" className="text-sm font-medium">
-                Format
+              <Label htmlFor="orientation" className="text-sm font-medium">
+                Page Orientation
               </Label>
               <Select
-                value={options.format}
-                onValueChange={(
-                  value: "pdf" | "jpg" | "png" | "jpeg" | "json" | "html"
-                ) => setOptions({ ...options, format: value })}
+                value={options.pageOrientation}
+                onValueChange={(value: "portrait" | "landscape") =>
+                  setOptions({ ...options, pageOrientation: value })
+                }
               >
-                <SelectTrigger id="format">
-                  <SelectValue placeholder="Select format" />
+                <SelectTrigger id="orientation">
+                  <SelectValue placeholder="Select orientation" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="pdf">PDF Document</SelectItem>
-                  <SelectItem value="jpg">JPG Image</SelectItem>
-                  <SelectItem value="png">PNG Image</SelectItem>
-                  <SelectItem value="jpeg">JPEG Image</SelectItem>
-                  <SelectItem value="html">HTML Page</SelectItem>
-                  <SelectItem value="json">JSON Data</SelectItem>
+                  <SelectItem value="portrait">Portrait</SelectItem>
+                  <SelectItem value="landscape">Landscape</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            {/* Page Orientation (only for PDF and images) */}
-            {(options.format === "pdf" ||
-              options.format === "jpg" ||
-              options.format === "png" ||
-              options.format === "jpeg") && (
-              <div className="space-y-2">
-                <Label htmlFor="orientation" className="text-sm font-medium">
-                  Page Orientation
-                </Label>
-                <Select
-                  value={options.pageOrientation}
-                  onValueChange={(value: "portrait" | "landscape") =>
-                    setOptions({ ...options, pageOrientation: value })
-                  }
-                >
-                  <SelectTrigger id="orientation">
-                    <SelectValue placeholder="Select orientation" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="portrait">Portrait</SelectItem>
-                    <SelectItem value="landscape">Landscape</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-
-            {/* Quality Selection (only for PDF and images) */}
-            {(options.format === "pdf" ||
-              options.format === "jpg" ||
-              options.format === "png" ||
-              options.format === "jpeg") && (
-              <div className="space-y-2">
-                <Label htmlFor="quality" className="text-sm font-medium">
-                  Quality
-                </Label>
-                <Select
-                  value={options.quality}
-                  onValueChange={(value: "standard" | "high") =>
-                    setOptions({ ...options, quality: value })
-                  }
-                >
-                  <SelectTrigger id="quality">
-                    <SelectValue placeholder="Select quality" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="standard">Standard</SelectItem>
-                    <SelectItem value="high">High Quality</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+            {/* Quality Selection */}
+            <div className="space-y-2">
+              <Label htmlFor="quality" className="text-sm font-medium">
+                Quality
+              </Label>
+              <Select
+                value={options.quality}
+                onValueChange={(value: "standard" | "high") =>
+                  setOptions({ ...options, quality: value })
+                }
+              >
+                <SelectTrigger id="quality">
+                  <SelectValue placeholder="Select quality" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="standard">Standard</SelectItem>
+                  <SelectItem value="high">High Quality</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
             {/* Options */}
             <div className="space-y-3">
@@ -365,6 +328,12 @@ export default function DownloadDialog({
               </div>
             </div>
 
+            {/* Note about printer targets */}
+            <div className="text-xs text-muted-foreground bg-muted/50 p-3 rounded border border-border/40">
+              Note: In the browser print dialog you can choose built-in targets like
+              "Microsoft XPS Document Writer", "Microsoft Print to PDF", or "Fax".
+            </div>
+
             {/* Status Message */}
             {(isGenerating || isLoadingPreview) && (
               <div className="text-sm text-muted-foreground bg-muted p-3 rounded">
@@ -403,13 +372,14 @@ export default function DownloadDialog({
             onClick={handleDownload}
             disabled={
               isGenerating ||
-              (isPdfFormat && (isLoadingPreview || (!previewUrl && !pdfUrl)))
+              isLoadingPreview ||
+              (!previewUrl && !pdfUrl)
             }
             className="min-w-[100px]"
           >
             {isGenerating
               ? "Generating..."
-              : isPdfFormat && (isLoadingPreview || (!previewUrl && !pdfUrl))
+              : isLoadingPreview || (!previewUrl && !pdfUrl)
               ? "Preparing preview..."
               : "Download"}
           </Button>
