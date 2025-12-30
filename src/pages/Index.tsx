@@ -7,9 +7,6 @@ import {
   Phone,
   Github,
   Linkedin,
-  Globe,
-  Facebook,
-  Instagram,
 } from "lucide-react";
 import ResumePdf from "@/components/ResumePdf";
 import { resume } from "@/data/resumeData";
@@ -174,16 +171,6 @@ const Index = () => {
                   icon={Linkedin}
                   text="LinkedIn"
                   href={resume.contacts.linkedin}
-                />
-                <ContactItem
-                  icon={Facebook}
-                  text="Facebook"
-                  href={resume.contacts.facebook}
-                />
-                <ContactItem
-                  icon={Instagram}
-                  text="Instagram"
-                  href={resume.contacts.instagram}
                 />
               </div>
 

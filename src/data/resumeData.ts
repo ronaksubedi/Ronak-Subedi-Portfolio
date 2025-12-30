@@ -61,8 +61,6 @@ export const resume: ResumeData = {
     phone: "+977-9824029510",
     github: "https://github.com/ronaksubedi",
     linkedin: "https://www.linkedin.com/in/ronak-subedi/",
-    facebook: "https://www.facebook.com/ronaksubedi007",
-    instagram: "https://www.instagram.com/ronaksubedi/",
   },
   summary: [
     "Full Stack/MERN stack developer focused on building clean, scalable web applications.",

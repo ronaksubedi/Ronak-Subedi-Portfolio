@@ -227,21 +227,6 @@ const ResumePdf = ({
                   <Link src={resume.contacts.github} style={styles.link}>
                     GitHub
                   </Link>
-                  {resume.contacts.facebook && (
-                    <Link src={resume.contacts.facebook} style={styles.link}>
-                      Facebook
-                    </Link>
-                  )}
-                  {resume.contacts.instagram && (
-                    <Link src={resume.contacts.instagram} style={styles.link}>
-                      Instagram
-                    </Link>
-                  )}
-                  {resume.contacts.portfolio && (
-                    <Link src={resume.contacts.portfolio} style={styles.link}>
-                      Portfolio
-                    </Link>
-                  )}
                 </>
               )}
             </View>
