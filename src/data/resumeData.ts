@@ -51,7 +51,7 @@ export const resume: ResumeData = {
   location: "Patan, Bagmati, Nepal",
   contacts: {
     email: "ronaksubedi576@gmail.com",
-    phone: "+977-9746975539",
+    phone: "+977-9824029510",
     github: "https://github.com/ronaksubedi",
     linkedin: "https://www.linkedin.com/in/ronak-subedi/",
     portfolio: "https://ronaksubedi.com.np",
