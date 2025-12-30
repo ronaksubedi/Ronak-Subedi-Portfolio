@@ -330,8 +330,9 @@ export default function DownloadDialog({
 
             {/* Note about printer targets */}
             <div className="text-xs text-muted-foreground bg-muted/50 p-3 rounded border border-border/40">
-              Note: In the browser print dialog you can choose built-in targets like
-              "Microsoft XPS Document Writer", "Microsoft Print to PDF", or "Fax".
+              Note: In the browser print dialog you can choose built-in targets
+              like "Microsoft XPS Document Writer", "Microsoft Print to PDF", or
+              "Fax".
             </div>
 
             {/* Status Message */}
@@ -371,9 +372,7 @@ export default function DownloadDialog({
           <Button
             onClick={handleDownload}
             disabled={
-              isGenerating ||
-              isLoadingPreview ||
-              (!previewUrl && !pdfUrl)
+              isGenerating || isLoadingPreview || (!previewUrl && !pdfUrl)
             }
             className="min-w-[100px]"
           >
