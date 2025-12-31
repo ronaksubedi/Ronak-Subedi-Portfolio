@@ -11,7 +11,6 @@ import { resume } from "@/data/resumeData";
 import DownloadDialog, {
   type DownloadOptions,
 } from "@/components/DownloadDialog";
-import QandA from "@/pages/QandA";
 import Index from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
 
@@ -166,7 +165,7 @@ const App = () => {
               />
             }
           />
-          <Route path="/qa" element={<QandA />} />
+          <Route path="/qa" element={<QARedirect />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </TooltipProvider>
@@ -182,6 +181,15 @@ interface CVPageProps {
   pdfUrl: string | null;
   cvContainerRef: React.RefObject<HTMLDivElement>;
 }
+
+const QARedirect = () => {
+  useEffect(() => {
+    // Redirect to the static HTML Q&A file
+    window.location.href = "/screen-reader-qa.html";
+  }, []);
+
+  return null;
+};
 
 const CVPage = ({
   downloadDialogOpen,
