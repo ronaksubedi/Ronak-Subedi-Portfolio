@@ -223,7 +223,7 @@ const Index = () => {
                     {resume.skills.backend.map((skill) => (
                       <span
                         key={skill}
-                        className="px-2.5 py-1 bg-secondary text-secondary-foreground text-xs font-mono rounded"
+                        className="px-2.5 py-1 bg-secondary text-secondary-foreground text-xs font-mono rounded transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary/30 hover:bg-primary/20 cursor-pointer"
                       >
                         {skill}
                       </span>
@@ -238,7 +238,7 @@ const Index = () => {
                     {resume.skills.frontend.map((skill) => (
                       <span
                         key={skill}
-                        className="px-2.5 py-1 bg-secondary text-secondary-foreground text-xs font-mono rounded"
+                        className="px-2.5 py-1 bg-secondary text-secondary-foreground text-xs font-mono rounded transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary/30 hover:bg-primary/20 cursor-pointer"
                       >
                         {skill}
                       </span>
@@ -253,7 +253,7 @@ const Index = () => {
                     {resume.skills.tools.map((skill) => (
                       <span
                         key={skill}
-                        className="px-2.5 py-1 bg-secondary text-secondary-foreground text-xs font-mono rounded"
+                        className="px-2.5 py-1 bg-secondary text-secondary-foreground text-xs font-mono rounded transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-primary/30 hover:bg-primary/20 cursor-pointer"
                       >
                         {skill}
                       </span>

@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { pdf } from "@react-pdf/renderer";
 import { useState, useEffect, useRef } from "react";
 import html2canvas from "html2canvas";
@@ -10,6 +11,9 @@ import { resume } from "@/data/resumeData";
 import DownloadDialog, {
   type DownloadOptions,
 } from "@/components/DownloadDialog";
+import QandA from "@/pages/QandA";
+import Index from "@/pages/Index";
+import NotFound from "@/pages/NotFound";
 
 const App = () => {
   const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
@@ -144,236 +148,273 @@ const App = () => {
   };
 
   return (
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <div className="min-h-screen bg-background">
-        {/* Fixed Download Button */}
-        <div className="fixed top-6 right-6 z-50">
-          <button
-            onClick={() => setDownloadDialogOpen(true)}
-            disabled={isGenerating}
-            className="inline-flex items-center gap-2 bg-primary px-4 py-2 rounded text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
-          >
-            <Download className="w-4 h-4" />
-            {isGenerating ? "Generating..." : "Download CV"}
-          </button>
-        </div>
+    <BrowserRouter>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <CVPage
+                downloadDialogOpen={downloadDialogOpen}
+                setDownloadDialogOpen={setDownloadDialogOpen}
+                isGenerating={isGenerating}
+                handleDownload={handleDownload}
+                pdfUrl={pdfUrl}
+                cvContainerRef={cvContainerRef}
+              />
+            }
+          />
+          <Route path="/qa" element={<QandA />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </TooltipProvider>
+    </BrowserRouter>
+  );
+};
 
-        {/* Download Dialog */}
-        <DownloadDialog
-          open={downloadDialogOpen}
-          onOpenChange={setDownloadDialogOpen}
-          onDownload={handleDownload}
-          pdfUrl={pdfUrl}
-          isGenerating={isGenerating}
-        />
+interface CVPageProps {
+  downloadDialogOpen: boolean;
+  setDownloadDialogOpen: (open: boolean) => void;
+  isGenerating: boolean;
+  handleDownload: (options: DownloadOptions) => Promise<void>;
+  pdfUrl: string | null;
+  cvContainerRef: React.RefObject<HTMLDivElement>;
+}
 
-        {/* Two-Column Layout */}
-        <div
-          ref={cvContainerRef}
-          className="max-w-5xl mx-auto px-6 py-16 lg:py-24"
+const CVPage = ({
+  downloadDialogOpen,
+  setDownloadDialogOpen,
+  isGenerating,
+  handleDownload,
+  pdfUrl,
+  cvContainerRef,
+}: CVPageProps) => {
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Fixed Download Button */}
+      <div className="fixed top-6 right-6 z-50">
+        <button
+          onClick={() => setDownloadDialogOpen(true)}
+          disabled={isGenerating}
+          className="inline-flex items-center gap-2 bg-primary px-4 py-2 rounded text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            {/* Left Column - Contact Info */}
-            <aside className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
-              <div className="space-y-8">
-                <div className="w-32 h-32 rounded-full overflow-hidden border border-border bg-secondary/60">
-                  <img
-                    src="/images/heroimage.png"
-                    alt={`${resume.name} portrait`}
-                    className="w-full h-full object-contain object-[center_50%]"
-                  />
-                </div>
+          <Download className="w-4 h-4" />
+          {isGenerating ? "Generating..." : "Download CV"}
+        </button>
+      </div>
 
-                <div>
-                  <h1 className="text-3xl lg:text-4xl font-bold text-foreground tracking-tight">
-                    {resume.name} – MERN Stack Developer from Nepal
-                  </h1>
-                  <p className="mt-2 text-lg font-mono text-primary">
-                    {resume.title}
-                  </p>
-                </div>
+      {/* Download Dialog */}
+      <DownloadDialog
+        open={downloadDialogOpen}
+        onOpenChange={setDownloadDialogOpen}
+        onDownload={handleDownload}
+        pdfUrl={pdfUrl}
+        isGenerating={isGenerating}
+      />
 
-                <div className="space-y-4">
-                  <ContactItem icon={MapPin} text={resume.location} />
-                  <ContactItem
-                    icon={Mail}
-                    text={resume.contacts.email}
-                    href={`mailto:${resume.contacts.email}`}
-                  />
-                  <ContactItem
-                    icon={Phone}
-                    text={resume.contacts.phone}
-                    href={`tel:${resume.contacts.phone}`}
-                  />
-                  <ContactItem
-                    icon={Github}
-                    text="GitHub"
-                    href={resume.contacts.github}
-                  />
-                  <ContactItem
-                    icon={Linkedin}
-                    text="LinkedIn"
-                    href={resume.contacts.linkedin}
-                  />
-                </div>
+      {/* Two-Column Layout */}
+      <div
+        ref={cvContainerRef}
+        className="max-w-5xl mx-auto px-6 py-16 lg:py-24"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          {/* Left Column - Contact Info */}
+          <aside className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
+            <div className="space-y-8">
+              <div className="w-32 h-32 rounded-full overflow-hidden border border-border bg-secondary/60">
+                <img
+                  src="/images/heroimage.png"
+                  alt={`${resume.name} portrait`}
+                  className="w-full h-full object-contain object-[center_50%]"
+                />
+              </div>
 
-                {/* Languages */}
-                <div>
-                  <h3 className="text-sm font-medium text-foreground mb-2">
-                    Languages
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {resume.languages.join(" • ")}
-                  </p>
-                </div>
+              <div>
+                <h1 className="text-3xl lg:text-4xl font-bold text-foreground tracking-tight">
+                  {resume.name} – MERN Stack Developer from Nepal
+                </h1>
+                <p className="mt-2 text-lg font-mono text-primary">
+                  {resume.title}
+                </p>
+              </div>
 
-                {/* Interests */}
-                <div>
-                  <h3 className="text-sm font-medium text-foreground mb-2">
-                    Interests
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {resume.interests.map((interest) => (
-                      <span
-                        key={interest}
-                        className="px-2 py-0.5 bg-secondary text-secondary-foreground text-xs rounded"
-                      >
-                        {interest}
-                      </span>
-                    ))}
-                  </div>
+              <div className="space-y-4">
+                <ContactItem icon={MapPin} text={resume.location} />
+                <ContactItem
+                  icon={Mail}
+                  text={resume.contacts.email}
+                  href={`mailto:${resume.contacts.email}`}
+                />
+                <ContactItem
+                  icon={Phone}
+                  text={resume.contacts.phone}
+                  href={`tel:${resume.contacts.phone}`}
+                />
+                <ContactItem
+                  icon={Github}
+                  text="GitHub"
+                  href={resume.contacts.github}
+                />
+                <ContactItem
+                  icon={Linkedin}
+                  text="LinkedIn"
+                  href={resume.contacts.linkedin}
+                />
+              </div>
+
+              {/* Languages */}
+              <div>
+                <h3 className="text-sm font-medium text-foreground mb-2">
+                  Languages
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  {resume.languages.join(" • ")}
+                </p>
+              </div>
+
+              {/* Interests */}
+              <div>
+                <h3 className="text-sm font-medium text-foreground mb-2">
+                  Interests
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {resume.interests.map((interest) => (
+                    <span
+                      key={interest}
+                      className="px-2 py-0.5 bg-secondary text-secondary-foreground text-xs rounded"
+                    >
+                      {interest}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </aside>
+            </div>
+          </aside>
 
-            {/* Right Column - Resume Content */}
-            <main className="lg:col-span-8 space-y-12">
-              {/* Summary */}
-              <Section title="Summary">
-                <div className="space-y-2">
-                  {resume.summary.map((line, index) => (
-                    <p
-                      key={index}
-                      className="text-muted-foreground leading-relaxed"
-                    >
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              </Section>
+          {/* Right Column - Resume Content */}
+          <main className="lg:col-span-8 space-y-12">
+            {/* Summary */}
+            <Section title="Summary">
+              <div className="space-y-2">
+                {resume.summary.map((line, index) => (
+                  <p
+                    key={index}
+                    className="text-muted-foreground leading-relaxed"
+                  >
+                    {line}
+                  </p>
+                ))}
+              </div>
+            </Section>
 
-              {/* Skills */}
-              <Section title="Skills">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                  <SkillGroup title="Backend" skills={resume.skills.backend} />
-                  <SkillGroup
-                    title="Frontend"
-                    skills={resume.skills.frontend}
-                  />
-                  <SkillGroup title="Tools" skills={resume.skills.tools} />
-                </div>
-              </Section>
+            {/* Skills */}
+            <Section title="Skills">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <SkillGroup title="Backend" skills={resume.skills.backend} />
+                <SkillGroup title="Frontend" skills={resume.skills.frontend} />
+                <SkillGroup title="Tools" skills={resume.skills.tools} />
+              </div>
+            </Section>
 
-              {/* Experience */}
-              <Section title="Experience">
-                <div className="space-y-8">
-                  {resume.experience.map((exp, index) => (
-                    <div
-                      key={index}
-                      className="relative pl-6 border-l border-border"
-                    >
-                      <div className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-primary" />
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
-                        <h3 className="text-base font-semibold text-foreground">
-                          {exp.role}
-                        </h3>
-                        <span className="text-sm font-mono text-muted-foreground whitespace-nowrap">
-                          {exp.from} – {exp.to}
-                        </span>
-                      </div>
-                      <p className="text-sm text-primary mb-3">
-                        {exp.company} • {exp.location}
-                      </p>
-                      <ul className="space-y-2">
-                        {exp.bullets.map((bullet, idx) => (
-                          <li
-                            key={idx}
-                            className="text-sm text-muted-foreground leading-relaxed"
-                          >
-                            <span className="text-primary mr-2">•</span>
-                            {bullet}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </Section>
-
-              {/* Projects */}
-              <Section title="Projects">
-                <div className="space-y-6">
-                  {resume.projects.map((project, index) => (
-                    <div
-                      key={index}
-                      className="p-4 bg-card rounded-lg border border-border"
-                    >
-                      <div className="flex items-start justify-between gap-2 mb-2">
-                        <h3 className="text-base font-semibold text-foreground">
-                          {project.name}
-                        </h3>
-                        <a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-primary hover:underline font-mono"
-                        >
-                          View →
-                        </a>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
-                        {project.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.stack.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-2 py-0.5 bg-primary/10 text-primary text-xs font-mono rounded"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Section>
-
-              {/* Education */}
-              <Section title="Education">
-                {resume.education.map((edu, index) => (
-                  <div key={index}>
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
+            {/* Experience */}
+            <Section title="Experience">
+              <div className="space-y-8">
+                {resume.experience.map((exp, index) => (
+                  <div
+                    key={index}
+                    className="relative pl-6 border-l border-border"
+                  >
+                    <div className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-primary" />
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
                       <h3 className="text-base font-semibold text-foreground">
-                        {edu.degree}
+                        {exp.role}
                       </h3>
                       <span className="text-sm font-mono text-muted-foreground whitespace-nowrap">
-                        {edu.year}
+                        {exp.from} – {exp.to}
                       </span>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {edu.institution}, {edu.location}
+                    <p className="text-sm text-primary mb-3">
+                      {exp.company} • {exp.location}
                     </p>
+                    <ul className="space-y-2">
+                      {exp.bullets.map((bullet, idx) => (
+                        <li
+                          key={idx}
+                          className="text-sm text-muted-foreground leading-relaxed"
+                        >
+                          <span className="text-primary mr-2">•</span>
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 ))}
-              </Section>
-            </main>
-          </div>
+              </div>
+            </Section>
+
+            {/* Projects */}
+            <Section title="Projects">
+              <div className="space-y-6">
+                {resume.projects.map((project, index) => (
+                  <div
+                    key={index}
+                    className="p-4 bg-card rounded-lg border border-border"
+                  >
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <h3 className="text-base font-semibold text-foreground">
+                        {project.name}
+                      </h3>
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-primary hover:underline font-mono"
+                      >
+                        View →
+                      </a>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.stack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2 py-0.5 bg-primary/10 text-primary text-xs font-mono rounded"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Section>
+
+            {/* Education */}
+            <Section title="Education">
+              {resume.education.map((edu, index) => (
+                <div key={index}>
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
+                    <h3 className="text-base font-semibold text-foreground">
+                      {edu.degree}
+                    </h3>
+                    <span className="text-sm font-mono text-muted-foreground whitespace-nowrap">
+                      {edu.year}
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {edu.institution}, {edu.location}
+                  </p>
+                </div>
+              ))}
+            </Section>
+          </main>
         </div>
       </div>
-    </TooltipProvider>
+    </div>
   );
 };
 
