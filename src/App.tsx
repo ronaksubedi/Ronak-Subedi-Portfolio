@@ -13,6 +13,8 @@ import DownloadDialog, {
 } from "@/components/DownloadDialog";
 import Index from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
+import { ThemeProvider } from "@/context/ThemeContext";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const App = () => {
   const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
@@ -147,29 +149,31 @@ const App = () => {
   };
 
   return (
-    <BrowserRouter>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <CVPage
-                downloadDialogOpen={downloadDialogOpen}
-                setDownloadDialogOpen={setDownloadDialogOpen}
-                isGenerating={isGenerating}
-                handleDownload={handleDownload}
-                pdfUrl={pdfUrl}
-                cvContainerRef={cvContainerRef}
-              />
-            }
-          />
-          <Route path="/qa" element={<QARedirect />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </TooltipProvider>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <CVPage
+                  downloadDialogOpen={downloadDialogOpen}
+                  setDownloadDialogOpen={setDownloadDialogOpen}
+                  isGenerating={isGenerating}
+                  handleDownload={handleDownload}
+                  pdfUrl={pdfUrl}
+                  cvContainerRef={cvContainerRef}
+                />
+              }
+            />
+            <Route path="/qa" element={<QARedirect />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </TooltipProvider>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 
@@ -201,8 +205,8 @@ const CVPage = ({
 }: CVPageProps) => {
   return (
     <div className="min-h-screen bg-background">
-      {/* Fixed Download Button */}
-      <div className="fixed top-6 right-6 z-50">
+      {/* Fixed Download Button & Theme Toggle */}
+      <div className="fixed top-6 right-6 z-50 flex items-center gap-2">
         <button
           onClick={() => setDownloadDialogOpen(true)}
           disabled={isGenerating}
@@ -211,6 +215,7 @@ const CVPage = ({
           <Download className="w-4 h-4" />
           {isGenerating ? "Generating..." : "Download CV"}
         </button>
+        <ThemeToggle />
       </div>
 
       {/* Download Dialog */}

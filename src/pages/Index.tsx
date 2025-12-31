@@ -7,6 +7,7 @@ import { pdf, usePDF } from "@react-pdf/renderer";
 import DownloadDialog, {
   type DownloadOptions,
 } from "@/components/DownloadDialog";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Index = () => {
   const pdfDocument = useMemo(() => <ResumePdf />, []);
@@ -95,8 +96,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Download Button */}
-      <div className="fixed top-6 right-6 z-50">
+      {/* Download Button & Theme Toggle */}
+      <div className="fixed top-6 right-6 z-50 flex items-center gap-2">
         <button
           onClick={handleDownloadClick}
           disabled={instance.loading}
@@ -109,6 +110,7 @@ const Index = () => {
             ? "Generating..."
             : "Download CV"}
         </button>
+        <ThemeToggle />
       </div>
 
       {/* Download Dialog */}
