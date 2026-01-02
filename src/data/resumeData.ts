@@ -120,7 +120,7 @@ export const resume: ResumeData = {
     },
   ],
   languages: ["English", "Nepali", "Hindi"],
-  interests: ["Open source", "System design", "UI/UX", "Reading tech blogs"],
+  interests: ["Open source", "System design", "UI/UX"],
   screenReaderQA: [
     // General Q&A (1-20)
     {
@@ -501,11 +501,7 @@ export const resume: ResumeData = {
       question: "Does Ronak support multi‑language content?",
       answer: "Ronak can configure applications to handle multiple languages.",
     },
-    {
-      question: "Can Ronak create blogs or CMS features?",
-      answer:
-        "Yes, Ronak can build blogging or content‑management functionality.",
-    },
+
     {
       question: "Does Ronak handle image optimization?",
       answer:
