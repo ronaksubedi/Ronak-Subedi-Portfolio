@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Download, MapPin, Mail, Phone, Github, Linkedin } from "lucide-react";
 import ResumePdf from "@/components/ResumePdf";
 import { resume } from "@/data/resumeData";
+import BlogSection from "@/components/BlogSection";
+import { blogPosts } from "@/data/blogPosts";
 import { pdf, usePDF } from "@react-pdf/renderer";
 import DownloadDialog, {
   type DownloadOptions,
@@ -339,6 +341,13 @@ const Index = () => {
                 ))}
               </div>
             </Section>
+
+            {/* Blog / Publications (DEBUG BANNER ADDED) */}
+            {console.log("Index: rendering blog area")}
+            <div id="blog-debug-banner" style={{background:'#fffbeb',color:'#92400e',padding:16,borderRadius:8,marginBottom:16,border:'2px solid #f59e0b',fontWeight:700}}>
+              BLOG SECTION DEBUG — should appear above Education (bright banner)
+            </div>
+            <BlogSection posts={blogPosts} viewAllUrl="https://blog.ronaksubedi.com.np/" />
 
             {/* Education */}
             <Section title="Education">
