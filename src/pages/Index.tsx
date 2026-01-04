@@ -3,8 +3,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Download, MapPin, Mail, Phone, Github, Linkedin } from "lucide-react";
 import ResumePdf from "@/components/ResumePdf";
 import { resume } from "@/data/resumeData";
-import BlogSection from "@/components/BlogSection";
-import { blogPosts } from "@/data/blogPosts";
 import { pdf, usePDF } from "@react-pdf/renderer";
 import DownloadDialog, {
   type DownloadOptions,
@@ -268,6 +266,7 @@ const Index = () => {
             </Section>
 
             {/* Experience */}
+
             <Section title="Experience">
               <div className="space-y-8">
                 {resume.experience.map((exp, index) => (
@@ -341,13 +340,42 @@ const Index = () => {
                 ))}
               </div>
             </Section>
-
-            {/* Blog / Publications (DEBUG BANNER ADDED) */}
-            {console.log("Index: rendering blog area")}
-            <div id="blog-debug-banner" style={{background:'#fffbeb',color:'#92400e',padding:16,borderRadius:8,marginBottom:16,border:'2px solid #f59e0b',fontWeight:700}}>
-              BLOG SECTION DEBUG — should appear above Education (bright banner)
-            </div>
-            <BlogSection posts={blogPosts} viewAllUrl="https://blog.ronaksubedi.com.np/" />
+            {/* Blogs */}
+            <Section title="Blogs">
+              {resume.blogs.map((blog, index) => (
+                <div
+                  key={index}
+                  className="p-4 bg-card rounded-lg border border-border"
+                >
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <h3 className="text-base font-semibold text-foreground">
+                      {blog.name}
+                    </h3>
+                    <a
+                      href={blog.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-primary hover:underline font-mono"
+                    >
+                      Read →
+                    </a>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                    {blog.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {blog.stack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-0.5 bg-primary/10 text-primary text-xs font-mono rounded"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </Section>
 
             {/* Education */}
             <Section title="Education">

@@ -405,6 +405,31 @@ const CVPage = ({
                 ))}
               </div>
             </Section>
+            <Section title="Blogs">
+              {resume.blogs.map((blog, index) => (
+                <div
+                  key={index}
+                  className="p-4 bg-card rounded-lg border border-border"
+                >
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <h3 className="text-base font-semibold text-foreground">
+                      {blog.name}
+                    </h3>
+                    <a
+                      href={blog.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-primary hover:underline font-mono"
+                    >
+                      Read →
+                    </a>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                    {blog.description}
+                  </p>
+                </div>
+              ))}
+            </Section>
 
             {/* Education */}
             <Section title="Education">

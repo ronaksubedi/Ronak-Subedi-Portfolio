@@ -13,6 +13,12 @@ export interface Project {
   stack: string[];
   description: string;
 }
+export interface Blog {
+  name: string;
+  link: string;
+  stack: string[];
+  description: string;
+}
 
 export interface Education {
   degree: string;
@@ -44,6 +50,7 @@ export interface ResumeData {
   };
   experience: Experience[];
   projects: Project[];
+  blogs: Blog[];
   education: Education[];
   languages: string[];
   interests: string[];
@@ -109,6 +116,22 @@ export const resume: ResumeData = {
       stack: ["React", "Tailwind CSS"],
       description:
         "Responsive Bhagwat Gita app with chapter navigation and verse search functionality.",
+    },
+  ],
+  blogs: [
+    {
+      name: "Understanding the Node.js Event Loop",
+      link: "https://blog.ronaksubedi.com.np/blog/understanding-nodejs-event-loop",
+      stack: ["Node.js", "JavaScript", "Performance"],
+      description:
+        "A deep dive into how Node.js handles asynchronous operations and why understanding the event loop is crucial for building performant applications.",
+    },
+    {
+      name: "React Server Components Explained",
+      link: "https://blog.ronaksubedi.com.np/blog/react-server-components-explained",
+      stack: ["JavaScript", "React", "Web Performance"],
+      description:
+        "Learn what React Server Components are, how they differ from traditional components, and when to use them in your applications.",
     },
   ],
   education: [
