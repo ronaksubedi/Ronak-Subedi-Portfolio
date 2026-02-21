@@ -342,39 +342,43 @@ const Index = () => {
             </Section>
             {/* Blogs */}
             <Section title="Blogs">
-              {resume.blogs.map((blog, index) => (
-                <div
-                  key={index}
-                  className="p-4 bg-card rounded-lg border border-border"
-                >
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <h3 className="text-base font-semibold text-foreground">
-                      {blog.name}
-                    </h3>
-                    <a
-                      href={blog.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-primary hover:underline font-mono"
-                    >
-                      Read →
-                    </a>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
-                    {blog.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {blog.stack.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-0.5 bg-primary/10 text-primary text-xs font-mono rounded"
+              <div className="space-y-6">
+                {resume.blogs.map((blog, index) => (
+                  <div
+                    key={index}
+                    className={`p-4 bg-card rounded-lg border border-border mb-3 ${
+                      index !== resume.blogs.length - 1 ? "mb-6" : ""
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <h3 className="text-base font-semibold text-foreground">
+                        {blog.name}
+                      </h3>
+                      <a
+                        href={blog.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-primary hover:underline font-mono"
                       >
-                        {tech}
-                      </span>
-                    ))}
+                        Read →
+                      </a>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                      {blog.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {blog.stack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2 py-0.5 bg-primary/10 text-primary text-xs font-mono rounded"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </Section>
 
             {/* Education */}

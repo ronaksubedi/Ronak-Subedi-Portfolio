@@ -78,27 +78,14 @@ export const resume: ResumeData = {
   },
   experience: [
     {
-      role: "MERN Stack Developer intern/Junior",
+      role: "internship",
       company: "Nepal Bank Limited",
       location: "Kathmandu, Nepal",
       from: "Dec 2025",
       to: "Present",
       bullets: [
-        "Developed and maintained MERN applications .",
-        "Designed REST APIs in Node.js/Express and integrated them with React frontends.",
-        "Improved API response times by optimising MongoDB queries and adding caching.",
-      ],
-    },
-    {
-      role: "Full Stack Developer (Junior)",
-      company: "Nep Tech Pal",
-      location: "Pokhara, Nepal",
-      from: "Jan 2025",
-      to: "Nov 2025",
-      bullets: [
-        "Next.js, React.js for modern web apps and SPAs.",
-        "Web design & development for business websites, portfolios, and custom web apps.",
-        "Software Developer (generalist who can work on business logic, APIs, and full products.",
+        "Managing and monitoring branch and data-center network devices.",
+        "•	Implementing and maintaining network security controls.",
       ],
     },
   ],
@@ -116,6 +103,13 @@ export const resume: ResumeData = {
       stack: ["React", "Tailwind CSS"],
       description:
         "Responsive Bhagwat Gita app with chapter navigation and verse search functionality.",
+    },
+    {
+      name: "Blog App",
+      link: "https://blog.ronaksubedi.com.np/",
+      stack: ["React", "Tailwind CSS"],
+      description:
+        "Personal blog built with Next.js, featuring markdown support and responsive design.",
     },
   ],
   blogs: [
