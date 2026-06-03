@@ -82,7 +82,7 @@ export const resume: ResumeData = {
       company: "Nepal Bank Limited",
       location: "Kathmandu, Nepal",
       from: "Dec 2025",
-      to: "Present",
+      to: "April 2026",
       bullets: [
         "Managing and monitoring branch and data-center network devices.",
         "•	Implementing and maintaining network security controls.",
