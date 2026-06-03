@@ -91,11 +91,11 @@ export const resume: ResumeData = {
   ],
   projects: [
     {
-      name: "New Paper Article",
-      link: "https://news-article-app.vercel.app/",
+      name: "Online Bookstore",
+      link: "bookstore.ronaksubedi.com.np",
       stack: ["MongoDB", "Express", "React", "Node.js"],
       description:
-        "News article platform with user authentication, article CRUD, and responsive design.",
+        "A full‑stack online bookstore with user authentication, book listings, and shopping cart functionality.",
     },
     {
       name: "Bhagwat Gita App",
